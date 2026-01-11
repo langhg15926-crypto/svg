@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="80.000mm" height="57.939mm" viewBox="0 0 226.772 164.237">
+<rect id="rect_0001" x="146.464" y="33.242" width="7.570" height="5.595" fill="#6e6e6e" stroke="none"/>
+<line id="line_0001" x1="40.658" y1="116.513" x2="40.658" y2="27.647" stroke="#000000" stroke-width="0.600" stroke-linecap="butt"/>
+<line id="line_0002" x1="124.751" y1="49.699" x2="124.751" y2="116.513" stroke="#000000" stroke-width="0.600" stroke-linecap="butt"/>
+<line id="line_0003" x1="137.738" y1="116.513" x2="137.738" y2="59.902" stroke="#000000" stroke-width="0.600" stroke-linecap="butt"/>
+<line id="line_0004" x1="130.021" y1="49.698" x2="130.021" y2="116.512" stroke="#000000" stroke-width="0.600" stroke-linecap="butt"/>
+<line id="line_0005" x1="117.661" y1="116.513" x2="117.661" y2="69.446" stroke="#000000" stroke-width="0.600" stroke-linecap="butt"/>
+<line id="line_0006" x1="104.676" y1="71.093" x2="104.676" y2="116.513" stroke="#000000" stroke-width="0.600" stroke-linecap="butt"/>
+<line id="line_0007" x1="109.920" y1="71.092" x2="109.920" y2="116.513" stroke="#000000" stroke-width="0.600" stroke-linecap="butt"/>
+<line id="line_0008" x1="97.253" y1="116.513" x2="97.253" y2="78.662" stroke="#000000" stroke-width="0.600" stroke-linecap="butt"/>
+<line id="line_0009" x1="18.038" y1="17.772" x2="16.771" y2="94.131" stroke="#000000" stroke-width="0.600" stroke-linecap="butt" stroke-dasharray="2.0,2.0"/>
+<line id="line_0010" x1="18.410" y1="52.003" x2="18.410" y2="143.172" stroke="#000000" stroke-width="0.600" stroke-linecap="butt" stroke-dasharray="2.0,2.0"/>
+<line id="line_0011" x1="17.386" y1="17.082" x2="18.828" y2="43.149" stroke="#000000" stroke-width="0.600" stroke-linecap="butt" stroke-dasharray="2.0,2.0"/>
+<line id="line_0012" x1="21.936" y1="105.641" x2="21.429" y2="143.168" stroke="#000000" stroke-width="0.600" stroke-linecap="butt" stroke-dasharray="2.0,2.0"/>
+<line id="line_0013" x1="21.705" y1="95.119" x2="20.665" y2="142.527" stroke="#000000" stroke-width="0.600" stroke-linecap="butt" stroke-dasharray="2.0,2.0"/>
+<line id="line_0014" x1="21.198" y1="15.467" x2="21.198" y2="43.118" stroke="#000000" stroke-width="0.600" stroke-linecap="butt" stroke-dasharray="2.0,2.0"/>
+<line id="line_0015" x1="19.606" y1="142.515" x2="19.614" y2="52.002" stroke="#000000" stroke-width="0.600" stroke-linecap="butt" stroke-dasharray="2.0,2.0"/>
+<line id="line_0016" x1="22.470" y1="105.630" x2="23.461" y2="139.888" stroke="#000000" stroke-width="0.600" stroke-linecap="butt" stroke-dasharray="2.0,2.0"/>
+<line id="line_0017" x1="16.134" y1="117.174" x2="16.366" y2="142.518" stroke="#000000" stroke-width="0.600" stroke-linecap="butt" stroke-dasharray="2.0,2.0"/>
+<text id="text_0001" x="19.583" y="19.912" font-family="'FZShuSong-Z01', 'Times New Roman', 'SimSun', serif" font-size="9.000" text-anchor="middle" dominant-baseline="middle" fill="#000000">%</text>
+<text id="text_0002" x="19.583" y="29.293" font-family="'FZShuSong-Z01', 'Times New Roman', 'SimSun', serif" font-size="9.000" text-anchor="middle" dominant-baseline="middle" fill="#000000">例</text>
+<text id="text_0003" x="32.090" y="31.267" font-family="'FZShuSong-Z01', 'Times New Roman', 'SimSun', serif" font-size="9.000" text-anchor="middle" dominant-baseline="middle" fill="#000000">↑</text>
+<text id="text_0004" x="110.424" y="37.686" font-family="'FZShuSong-Z01', 'Times New Roman', 'SimSun', serif" font-size="9.000" text-anchor="middle" dominant-baseline="middle" fill="#000000">比 100 ■ 增殖抑制率</text>
+<text id="text_0005" x="115.196" y="49.534" font-family="'FZShuSong-Z01', 'Times New Roman', 'SimSun', serif" font-size="9.000" text-anchor="middle" dominant-baseline="middle" fill="#000000">亡 80 □ 细胞凋亡比例</text>
+<text id="text_0006" x="82.612" y="84.916" font-family="'FZShuSong-Z01', 'Times New Roman', 'SimSun', serif" font-size="9.000" text-anchor="middle" dominant-baseline="middle" fill="#000000">抑制率或细胞凋亡 80 60 40 20 0 0 5 10 15 20</text>
+<text id="text_0007" x="51.345" y="122.272" font-family="'FZShuSong-Z01', 'Times New Roman', 'SimSun', serif" font-size="9.000" text-anchor="middle" dominant-baseline="middle" fill="#000000">0</text>
+<text id="text_0008" x="90.676" y="122.272" font-family="'FZShuSong-Z01', 'Times New Roman', 'SimSun', serif" font-size="9.000" text-anchor="middle" dominant-baseline="middle" fill="#000000">10</text>
+<text id="text_0009" x="75.207" y="122.272" font-family="'FZShuSong-Z01', 'Times New Roman', 'SimSun', serif" font-size="9.000" text-anchor="middle" dominant-baseline="middle" fill="#000000">0 5 10 15 20</text>
+<text id="text_0010" x="16.457" y="128.197" font-family="'FZShuSong-Z01', 'Times New Roman', 'SimSun', serif" font-size="9.000" text-anchor="middle" dominant-baseline="middle" fill="#000000">率</text>
+<text id="text_0011" x="68.459" y="134.286" font-family="'FZShuSong-Z01', 'Times New Roman', 'SimSun', serif" font-size="9.000" text-anchor="middle" dominant-baseline="middle" fill="#000000">SW浓度/</text>
+<text id="text_0012" x="92.486" y="134.286" font-family="'FZShuSong-Z01', 'Times New Roman', 'SimSun', serif" font-size="9.000" text-anchor="middle" dominant-baseline="middle" fill="#000000">(</text>
+<text id="text_0013" x="73.725" y="134.944" font-family="'FZShuSong-Z01', 'Times New Roman', 'SimSun', serif" font-size="9.000" text-anchor="middle" dominant-baseline="middle" fill="#000000">SW浓度/ ( pg · L⁻¹ )</text>
+<text id="text_0014" x="16.786" y="142.185" font-family="'FZShuSong-Z01', 'Times New Roman', 'SimSun', serif" font-size="9.000" text-anchor="middle" dominant-baseline="middle" fill="#000000">压</text>
+<text id="text_0015" x="22.216" y="143.830" font-family="'FZShuSong-Z01', 'Times New Roman', 'SimSun', serif" font-size="9.000" text-anchor="middle" dominant-baseline="middle" fill="#000000">2</text>
+<text id="text_0016" x="111.576" y="154.527" font-family="'FZShuSong-Z01', 'Times New Roman', 'SimSun', serif" font-size="9.000" text-anchor="middle" dominant-baseline="middle" fill="#000000">图</text>
+<text id="text_0017" x="121.285" y="154.692" font-family="'FZShuSong-Z01', 'Times New Roman', 'SimSun', serif" font-size="9.000" text-anchor="middle" dominant-baseline="middle" fill="#000000">2</text>
+</svg>

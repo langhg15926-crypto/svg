@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Vector Redraw Suite</title>
+  <link rel="stylesheet" href="/static/style.css"/>
+</head>
+<body>
+<header>
+  <div class="title">Vector Redraw Suite <span class="small">≤80mm · 0.6pt · 9pt · no groups · no arrows</span></div>
+  <div class="btns">
+    <button id="btnSettings">设置</button>
+    <button class="primary" id="btnStart">开始处理</button>
+    <button class="danger" id="btnClear">清空</button>
+  </div>
+</header>
+
+<main>
+  <div class="sidebar">
+    <div class="section">
+      <h3>本次使用模型</h3>
+      <label>Provider / Model</label>
+      <select id="selModel"></select>
+      <div class="small" id="modelHint"></div>
+    </div>
+
+    <div class="section">
+      <h3>流程开关</h3>
+      <label><input type="checkbox" id="chkLLM" checked/> 启用 LLM（OCR 读字用）</label>
+      <label><input type="checkbox" id="chkOCR" checked/> 使用 LLM OCR（拼图一次调用）</label>
+      <label><input type="checkbox" id="chkRefine"/> LLM refine（可选，默认关）</label>
+      <div class="small">建议：批量时只开 OCR，refine 先关（可减少调用次数）。</div>
+    </div>
+
+    <div class="section">
+      <h3>样式规范</h3>
+      <label>最大画板宽度 (mm)</label>
+      <input id="maxWidth" type="number" value="80" min="10" max="80" step="1"/>
+      <label>字体族 (font-family)</label>
+      <input id="fontFamily" type="text" value="'FZShuSong-Z01', 'Times New Roman', 'SimSun', serif"/>
+      <div class="row2">
+        <div>
+          <label>坐标轴字号 (pt)</label>
+          <input id="axisFont" type="number" value="9" step="0.5"/>
+        </div>
+        <div>
+          <label>标注字号 (pt)</label>
+          <input id="labelFont" type="number" value="9" step="0.5"/>
+        </div>
+      </div>
+      <div class="row2">
+        <div>
+          <label>主线线宽 (pt)</label>
+          <input id="strokeMain" type="number" value="0.6" step="0.05"/>
+        </div>
+        <div>
+          <label>虚线线宽 (pt)</label>
+          <input id="strokeDash" type="number" value="0.6" step="0.05"/>
+        </div>
+      </div>
+      <label>虚线 dasharray (pt)</label>
+      <input id="dashArray" type="text" value="2.0,2.0"/>
+    </div>
+
+    <div class="section">
+      <h3>批量导入</h3>
+      <input id="fileInput" type="file" multiple accept=".png,.jpg,.jpeg,.webp"/>
+      <div class="small">支持多图同时导入；后端会按顺序输出 001/002/003...</div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="queue">
+      <div class="qhead">
+        <div>队列</div>
+        <div class="small" id="jobInfo">Job: -</div>
+      </div>
+      <div class="qbody" id="queueBody"></div>
+    </div>
+
+    <div style="height:10px"></div>
+
+    <div class="section">
+      <h3>日志（可复制）</h3>
+      <button id="btnCopyLog">复制日志</button>
+      <div class="logs" id="logBox"></div>
+    </div>
+  </div>
+</main>
+
+<!-- Settings Modal -->
+<div class="modal" id="modal">
+  <div class="box">
+    <div class="left">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div style="font-weight:700">OpenAI 中转 / 模型</div>
+        <button id="btnCloseModal">关闭</button>
+      </div>
+      <div style="height:8px"></div>
+      <button class="primary" id="btnAddProvider">+ 新建中转站</button>
+      <div style="height:8px"></div>
+      <div id="providerList"></div>
+      <div class="small">API Key 会保存在浏览器 localStorage（仅本地页面）。不要在公共电脑上使用。</div>
+    </div>
+
+    <div class="right">
+      <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;">
+        <div style="font-weight:700">编辑中转站</div>
+        <div style="display:flex;gap:8px;">
+          <button id="btnFetchModels">管理模型（拉取）</button>
+          <button class="danger" id="btnDeleteProvider">删除</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <label>中转站名称</label>
+        <input id="provName"/>
+        <label>Base URL</label>
+        <input id="provUrl" placeholder="https://xxx.xxx"/>
+        <label>API Key</label>
+        <input id="provKey" placeholder="sk-..."/>
+        <div class="row2">
+          <div>
+            <label>测试超时 (秒)</label>
+            <input id="provTimeout" type="number" value="30"/>
+          </div>
+          <div style="display:flex;align-items:end;">
+            <button id="btnTestProvider">测试</button>
+          </div>
+        </div>
+        <div class="small" id="provTestResult"></div>
+      </div>
+
+      <div class="section">
+        <h3>已保存模型</h3>
+        <div id="modelList"></div>
+
+        <div style="height:8px"></div>
+        <div class="row2">
+          <div>
+            <label>手动添加模型ID</label>
+            <input id="manualModelId" placeholder="gpt-4.1 / claude-... / gemini-..."/>
+          </div>
+          <div style="display:flex;align-items:end;">
+            <button id="btnAddModel">添加</button>
+          </div>
+        </div>
+
+        <div class="small">每个模型可配置：视觉/联网/推理/工具（默认全开，仅用于页面与流程判断）。</div>
+      </div>
+
+      <div style="display:flex;gap:8px;justify-content:flex-end;">
+        <button class="primary" id="btnSaveSettings">保存设置</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

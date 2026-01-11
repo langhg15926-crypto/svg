@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="80.000mm" height="62.373mm" viewBox="0 0 226.772 176.805">
+<line id="line_0001" x1="119.352" y1="68.337" x2="177.391" y2="82.086" stroke="#000000" stroke-width="0.600" stroke-linecap="butt" stroke-dasharray="2.0,2.0"/>
+<line id="line_0002" x1="71.068" y1="156.060" x2="126.842" y2="159.710" stroke="#000000" stroke-width="0.600" stroke-linecap="butt"/>
+<line id="line_0003" x1="177.019" y1="146.299" x2="134.603" y2="158.127" stroke="#000000" stroke-width="0.600" stroke-linecap="butt"/>
+<line id="line_0004" x1="120.985" y1="68.337" x2="57.307" y2="76.040" stroke="#000000" stroke-width="0.600" stroke-linecap="butt"/>
+<line id="line_0005" x1="74.840" y1="72.386" x2="38.144" y2="86.043" stroke="#000000" stroke-width="0.600" stroke-linecap="butt"/>
+<line id="line_0006" x1="138.371" y1="108.033" x2="88.386" y2="108.033" stroke="#000000" stroke-width="0.600" stroke-linecap="butt" stroke-dasharray="2.0,2.0"/>
+<line id="line_0007" x1="33.574" y1="141.354" x2="82.484" y2="158.037" stroke="#000000" stroke-width="0.600" stroke-linecap="butt" stroke-dasharray="2.0,2.0"/>
+<line id="line_0008" x1="72.182" y1="72.223" x2="31.722" y2="90.099" stroke="#000000" stroke-width="0.600" stroke-linecap="butt"/>
+<line id="line_0009" x1="149.947" y1="156.261" x2="94.158" y2="159.500" stroke="#000000" stroke-width="0.600" stroke-linecap="butt"/>
+<line id="line_0010" x1="159.949" y1="159.588" x2="121.272" y2="168.099" stroke="#000000" stroke-width="0.600" stroke-linecap="butt"/>
+<line id="line_0011" x1="81.611" y1="1.707" x2="25.825" y2="28.501" stroke="#000000" stroke-width="0.600" stroke-linecap="butt" stroke-dasharray="2.0,2.0"/>
+<line id="line_0012" x1="110.165" y1="0.000" x2="173.715" y2="14.445" stroke="#000000" stroke-width="0.600" stroke-linecap="butt" stroke-dasharray="2.0,2.0"/>
+<line id="line_0013" x1="8.838" y1="118.016" x2="41.844" y2="150.345" stroke="#000000" stroke-width="0.600" stroke-linecap="butt" stroke-dasharray="2.0,2.0"/>
+<line id="line_0014" x1="105.306" y1="0.000" x2="59.149" y2="9.878" stroke="#000000" stroke-width="0.600" stroke-linecap="butt"/>
+<line id="line_0015" x1="211.881" y1="49.410" x2="222.079" y2="93.475" stroke="#000000" stroke-width="0.600" stroke-linecap="butt" stroke-dasharray="2.0,2.0"/>
+<text id="text_0001" x="106.660" y="66.302" font-family="'FZShuSong-Z01', 'Times New Roman', 'SimSun', serif" font-size="9.000" text-anchor="middle" dominant-baseline="middle" fill="#000000">化学变化</text>
+<text id="text_0002" x="120.112" y="127.799" font-family="'FZShuSong-Z01', 'Times New Roman', 'SimSun', serif" font-size="9.000" text-anchor="middle" dominant-baseline="middle" fill="#000000">物理变化</text>
+</svg>
