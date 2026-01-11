@@ -407,15 +407,16 @@ def estimate_stroke_width_px(mask: np.ndarray) -> float:
     return float(np.median(vals) * 2.0)
 
 
-def tune_hough(dc: DetectConfig, w: int, h: int) -> Tuple[int, int, int]:
+def tune_hough(dc: DetectConfig, w: int, h: int, stroke_width: float) -> Tuple[int, int, int]:
     # produce (threshold, minLen, maxGap)
     if not dc.auto_tune:
         return dc.hough_threshold, dc.hough_min_line_length, dc.hough_max_line_gap
 
     m = min(w, h)
-    thr = max(20, int(m * 0.18))
-    min_len = max(10, int(m * 0.15))
-    max_gap = max(2, int(m * 0.03))
+    sw = clamp(stroke_width, 1.0, 12.0)
+    thr = max(20, int(m * 0.12 + sw * 2.0))
+    min_len = max(10, int(m * 0.08 + sw * 4.0))
+    max_gap = max(2, int(m * 0.02 + sw * 2.0))
     return thr, min_len, max_gap
 
 
@@ -538,6 +539,13 @@ def seg_len(p1: np.ndarray, p2: np.ndarray) -> float:
     return float(np.linalg.norm(p2 - p1))
 
 
+def segment_projection_interval(p1: np.ndarray, p2: np.ndarray, direction: np.ndarray) -> Tuple[float, float]:
+    d = direction / max(1e-6, float(np.linalg.norm(direction)))
+    t1 = float(p1 @ d)
+    t2 = float(p2 @ d)
+    return (min(t1, t2), max(t1, t2))
+
+
 def merge_collinear_segments(segments: List[Tuple[np.ndarray, np.ndarray]], angle_tol_deg: float, dist_tol_px: float) -> List[Tuple[np.ndarray, np.ndarray]]:
     # Simple greedy merge: repeatedly merge if angles close and endpoints close
     out = segments[:]
@@ -570,6 +578,15 @@ def merge_collinear_segments(segments: List[Tuple[np.ndarray, np.ndarray]], angl
                     np.linalg.norm(merged[1] - b2),
                 )
                 if dmin > dist_tol_px:
+                    continue
+                # ensure projection overlap or very small gap
+                direction = merged[1] - merged[0]
+                if np.linalg.norm(direction) < 1e-6:
+                    continue
+                a_min, a_max = segment_projection_interval(merged[0], merged[1], direction)
+                b_min, b_max = segment_projection_interval(b1, b2, direction)
+                gap = max(a_min, b_min) - min(a_max, b_max)
+                if gap > dist_tol_px:
                     continue
                 # merge by projecting all 4 endpoints onto merged direction
                 pts = np.vstack([merged[0], merged[1], b1, b2])
@@ -673,13 +690,22 @@ def detect_filled_rects(gray: np.ndarray, mask: np.ndarray, dc: DetectConfig) ->
     return rects, filled
 
 
-def detect_lines_from_skeleton(mask_lines: np.ndarray, dc: DetectConfig) -> List[Tuple[np.ndarray, np.ndarray]]:
+def detect_lines_from_skeleton(
+    mask_lines: np.ndarray,
+    dc: DetectConfig,
+    stroke_width: float,
+) -> List[Tuple[np.ndarray, np.ndarray]]:
     h, w = mask_lines.shape[:2]
     skel = skeletonize(mask_lines)
     ys, xs = np.where(skel > 0)
     pts = np.stack([xs.astype(np.float32), ys.astype(np.float32)], axis=1) if xs.size else np.zeros((0,2), np.float32)
 
-    thr, min_len, max_gap = tune_hough(dc, w, h)
+    thr, min_len, max_gap = tune_hough(dc, w, h, stroke_width)
+    sw = max(1.0, stroke_width)
+    near_dist = max(dc.near_dist_px, sw * 0.6)
+    endpoint_extend = max(dc.endpoint_extend_px, int(round(sw * 6.0)))
+    snap_axis_eps = max(dc.snap_axis_eps_px, sw * 0.15)
+    merge_dist = max(dc.merge_dist_px, sw * 0.6)
     lines = cv2.HoughLinesP(
         skel,
         rho=1,
@@ -698,7 +724,7 @@ def detect_lines_from_skeleton(mask_lines: np.ndarray, dc: DetectConfig) -> List
         a = np.array([x1, y1], dtype=np.float32)
         b = np.array([x2, y2], dtype=np.float32)
 
-        near = gather_points_near_segment(pts, a, b, dc.near_dist_px)
+        near = gather_points_near_segment(pts, a, b, near_dist)
         if near.shape[0] >= 8:
             c, d = tls_fit_line(near)
             t = (near - c) @ d
@@ -707,14 +733,14 @@ def detect_lines_from_skeleton(mask_lines: np.ndarray, dc: DetectConfig) -> List
         else:
             p1, p2 = a, b
 
-        p1, p2 = refine_endpoints_to_mask(mask_lines, p1, p2, max_extend=dc.endpoint_extend_px)
-        p1, p2 = snap_axis(p1, p2, eps=dc.snap_axis_eps_px)
+        p1, p2 = refine_endpoints_to_mask(mask_lines, p1, p2, max_extend=endpoint_extend)
+        p1, p2 = snap_axis(p1, p2, eps=snap_axis_eps)
 
         if seg_len(p1, p2) >= 6.0:
             segs.append((p1, p2))
 
     # merge collinear
-    segs = merge_collinear_segments(segs, angle_tol_deg=dc.merge_angle_deg, dist_tol_px=dc.merge_dist_px)
+    segs = merge_collinear_segments(segs, angle_tol_deg=dc.merge_angle_deg, dist_tol_px=merge_dist)
 
     # clamp again
     out: List[Tuple[np.ndarray, np.ndarray]] = []
@@ -759,8 +785,8 @@ def merge_text_boxes(boxes: List[Tuple[int,int,int,int]], gap: int) -> List[Tupl
                 # merge
                 x1 = min(cur[0], b[0])
                 y1 = min(cur[1], b[1])
-                x2 = max(cur[0]+cur[2], b[0]+b[2])
-                y2 = max(cur[1]+cur[3], b[1]+b[3])
+                x2 = max(cur[0] + cur[2], b[0] + b[2])
+                y2 = max(cur[1] + cur[3], b[1] + b[3])
                 cur = (x1, y1, x2-x1, y2-y1)
                 continue
         merged.append(cur)
@@ -1022,10 +1048,17 @@ def process_one_image(
 
     # line mask = remove filled regions (bars)
     mask_lines = cv2.bitwise_and(mask, cv2.bitwise_not(filled_mask))
+    stroke_width = estimate_stroke_width_px(mask_lines)
+    kernel_size = max(1, int(round(stroke_width / 2.0)))
+    if kernel_size > 1:
+        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (kernel_size, kernel_size))
+        mask_lines = cv2.morphologyEx(mask_lines, cv2.MORPH_OPEN, kernel)
+        mask_lines = cv2.morphologyEx(mask_lines, cv2.MORPH_CLOSE, kernel)
+        stroke_width = estimate_stroke_width_px(mask_lines)
 
     # step: lines
     STORE.step_start(job_id, item_idx0, "detect_lines", "skeleton + HoughLinesP + TLS + merge")
-    segs = detect_lines_from_skeleton(mask_lines, cfg.detect)
+    segs = detect_lines_from_skeleton(mask_lines, cfg.detect, stroke_width)
     STORE.step_done(job_id, item_idx0, "detect_lines", f"lines={len(segs)}")
 
     # step: dashed classify
